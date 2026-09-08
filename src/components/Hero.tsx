@@ -33,8 +33,10 @@ export function Hero() {
         <div className="hero-grid">
           <div>
             <p className="lede hero-lede">
-              I build software for small businesses that never had a software team. Right now that means Neo Office, the
-              back office my brother and I are building for gas stations and convenience stores.
+              Founder and CEO of Neogen Technologies, with a bachelor’s degree in Computer Science and experience in web
+              and software development. In 2025, I co-founded Neogen Technologies with my brother to provide IT consulting
+              solutions for small businesses. Our flagship project, Neo Office, is a back-office management system designed
+              for gas stations.
             </p>
             <div className="hero-actions">
               <Magnetic href="#story" primary>Read the story</Magnetic>

@@ -58,7 +58,7 @@ p { margin: 0; }
 }
 .eyebrow b { color: var(--accent); font-weight: 500; }
 .mono { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.02em; }
-.lede { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.5; color: var(--ink-2); max-width: 44ch; }
+.lede { font-size: clamp(17px, 1.35vw, 20px); line-height: 1.5; color: var(--ink-2); max-width: 52ch; }
 .measure { max-width: 60ch; color: var(--ink-2); }
 
 /* ---------- layers ---------- */
