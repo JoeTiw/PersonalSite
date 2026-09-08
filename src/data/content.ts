@@ -17,9 +17,9 @@ export const story: Chapter[] = [
     body: 'Bhuwan and I grew up taking things apart to see how they worked. When we started paying attention to the small businesses around us, we kept seeing the same thing: good people running real operations on paper, spreadsheets, and software nobody would support.',
   },
   {
-    label: 'The company',
-    title: 'Neogen Technologies.',
-    body: 'We started Neogen to help small businesses with any tech work they needed. Websites, integrations, the odd automation, whatever the day called for. The rule was simple: if a big company would have a software team for it, a small one deserves one too.',
+    label: 'The company · 2025',
+    title: 'Neogen Technologies, founded 2025.',
+    body: 'In 2025 we started Neogen to provide IT consulting for small businesses: websites, integrations, the odd automation, whatever the day called for. The rule was simple: if a big company would have a software team for it, a small one deserves one too.',
   },
   {
     label: 'The product',
