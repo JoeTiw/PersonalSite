@@ -134,12 +134,18 @@ export function Intro({ onDone }: Props) {
       html.classList.remove('is-intro')
       getLenis()?.start()
       doneRef.current()
-      gsap.to(el, {
-        yPercent: -100,
-        duration: fast ? 0.5 : 0.7,
-        ease: 'power4.inOut',
-        onComplete: () => setActive(false),
-      })
+      const k = fast ? 0.7 : 1
+      const chrome = el.querySelectorAll('.intro-hud, .intro-skip, .intro-msg')
+      const page = document.querySelector<HTMLElement>('.content')
+      const nav = document.querySelector<HTMLElement>('.nav')
+      const tl = gsap.timeline({ onComplete: () => setActive(false) })
+      tl.to(chrome, { opacity: 0, duration: 0.25 * k, ease: 'power2.out' }, 0)
+        .to(cv, { opacity: 0, duration: 0.5 * k, ease: 'power2.in' }, 0.1 * k)
+        .fromTo(el, { borderRadius: '0 0 0 0' }, { borderRadius: '0 0 50% 50% / 0 0 14vh 14vh', duration: 0.45 * k, ease: 'power2.out' }, 0.15 * k)
+        .to(el, { borderRadius: '0 0 50% 50% / 0 0 0vh 0vh', duration: 0.5 * k, ease: 'power2.in' }, 0.6 * k)
+        .to(el, { yPercent: -100, duration: 1.0 * k, ease: 'power3.inOut' }, 0.15 * k)
+      if (page) tl.fromTo(page, { y: '9vh' }, { y: 0, duration: 1.0 * k, ease: 'power3.inOut', clearProps: 'transform' }, 0.15 * k)
+      if (nav) tl.fromTo(nav, { y: -12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 * k, ease: 'power3.out', clearProps: 'opacity,transform' }, 0.75 * k)
     }
 
     const draw = () => {
@@ -148,11 +154,15 @@ export function Intro({ onDone }: Props) {
       const S = mobile ? W * 0.66 : Math.min(W * 0.42, 560)
       const runwayY = mobile ? H * 0.58 : H * 0.64
       const gearH = S * 0.222
-      const tdX = mobile ? W * 0.66 : W * 0.6
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       ctx.fillStyle = PAPER
       ctx.fillRect(0, 0, W, H)
+
+      const x0 = W * 1.18
+      const xEnd = mobile ? W * 0.38 : W * 0.3
+      const tdP = TOUCHDOWN / TOTAL
+      const tdX = lerp(x0, xEnd, 1 - Math.pow(1 - tdP, 1.8))
 
       // runway draws in from the left, with touchdown-zone ticks
       const run = outCubic(clamp01(e / 0.55))
@@ -165,26 +175,29 @@ export function Intro({ onDone }: Props) {
         if (x < W * run) { ctx.fillRect(x, runwayY + 6, 3, 14); ctx.fillRect(x + 8, runwayY + 6, 3, 14) }
       }
 
-      // flight state
-      let x: number, y: number, pitch: number, gear: number, spd: number, agl: number
+      // flight state: one continuous easing for x so nothing jumps at touchdown
+      const p = clamp01(e / TOTAL)
+      const glide = 1 - Math.pow(1 - p, 1.8)
+      const x = lerp(x0, xEnd, glide)
+      const H0 = mobile ? H * 0.36 : H * 0.44
+      let y: number, pitch: number, gear: number, spd: number, agl: number
       if (e < TOUCHDOWN) {
-        const u = clamp01((e - 0.15) / (TOUCHDOWN - 0.15))
-        const path = 1 - Math.pow(1 - u, 1.25)
-        x = lerp(W * 1.12, tdX, path)
-        const height = (mobile ? H * 0.38 : H * 0.46) * Math.pow(1 - u, 1.7)
-        y = runwayY - gearH - height
-        pitch = lerp(-0.05, 0.11, smooth(0.62, 1, u))
-        gear = smooth(0.22, 0.5, u)
+        const u = clamp01((e - 0.1) / (TOUCHDOWN - 0.1))
+        const height = H0 * Math.pow(1 - u, 1.75)
+        const bob = Math.sin(e * 4.2) * 3 * (1 - u)
+        y = runwayY - gearH - height + bob
+        pitch = lerp(-0.045, 0.1, smooth(0.6, 1, u)) + Math.sin(e * 2.6) * 0.008 * (1 - u)
+        gear = smooth(0.2, 0.5, u)
         spd = Math.round(lerp(142, 131, u))
-        agl = Math.round(height / (mobile ? H * 0.38 : H * 0.46) * 420)
+        agl = Math.round((height / H0) * 420)
       } else {
-        const v = clamp01((e - TOUCHDOWN) / (TOTAL - TOUCHDOWN))
-        const roll = outCubic(v)
-        x = lerp(tdX, mobile ? W * 0.42 : W * 0.24, roll)
-        y = runwayY - gearH
-        pitch = 0.11 * (1 - smooth(0, 0.45, v))
+        const t = e - TOUCHDOWN
+        const v = clamp01(t / (TOTAL - TOUCHDOWN))
+        const squash = Math.sin(Math.PI * clamp01(t / 0.4)) * 5 * (1 - clamp01(t / 0.4))
+        y = runwayY - gearH + squash
+        pitch = 0.1 * (1 - smooth(0, 0.55, v)) - 0.012 * Math.sin(Math.PI * clamp01(t / 0.6))
         gear = 1
-        spd = Math.round(131 * (1 - roll))
+        spd = Math.round(131 * Math.pow(1 - v, 1.4))
         agl = 0
       }
 

@@ -458,7 +458,7 @@ section { position: relative; }
 
 /* ---------- arrival ---------- */
 html.is-intro, html.is-intro body { overflow: hidden; }
-.intro { position: fixed; inset: 0; z-index: 60; background: var(--paper); will-change: transform; cursor: pointer; }
+.intro { position: fixed; inset: 0; z-index: 60; background: var(--paper); will-change: transform; cursor: pointer; overflow: hidden; }
 .intro canvas { display: block; width: 100%; height: 100%; }
 .intro-msg {
   position: absolute; left: var(--gutter); right: var(--gutter); top: 22vh;
