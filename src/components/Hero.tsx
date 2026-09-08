@@ -1,17 +1,19 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { gsap } from '../lib/scroll'
 import { prefersReducedMotion } from '../lib/scene-state'
 import { site } from '../data/content'
 import { Magnetic } from './Magnetic'
 
-export function Hero() {
+export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
+  const tl = useRef<gsap.core.Timeline | null>(null)
 
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
-      tl.from('.hero-title .line span', { yPercent: 110, duration: 1.4, stagger: 0.12 }, 0.2)
+      tl.current = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
+      const t = tl.current
+      t.from('.hero-title .line span', { yPercent: 110, duration: 1.4, stagger: 0.12 }, 0.2)
         .from('.hero .eyebrow', { y: 16, opacity: 0, duration: 0.9 }, 0.6)
         .from('.hero-lede', { y: 22, opacity: 0, duration: 1 }, 0.85)
         .from('.hero-actions .btn', { y: 18, opacity: 0, duration: 0.8, stagger: 0.08 }, 1.0)
@@ -19,6 +21,10 @@ export function Hero() {
     }, root)
     return () => ctx.revert()
   }, [])
+
+  useEffect(() => {
+    if (ready) tl.current?.play()
+  }, [ready])
 
   return (
     <section className="hero" ref={root}>

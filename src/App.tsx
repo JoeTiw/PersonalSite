@@ -1,6 +1,7 @@
-import { Suspense, lazy, useEffect } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
 import { ScrollTrigger, destroySmoothScroll, initSmoothScroll } from './lib/scroll'
 import { prefersReducedMotion, sceneState } from './lib/scene-state'
+import { Intro } from './components/Intro'
 import { Nav } from './components/Nav'
 import { Cursor } from './components/Cursor'
 import { Hero } from './components/Hero'
@@ -16,9 +17,13 @@ import { Contact } from './components/Contact'
 const Scene = lazy(() => import('./three/Scene'))
 
 export default function App() {
+  const [arrived, setArrived] = useState(false)
+  const onArrive = useCallback(() => setArrived(true), [])
+
   useEffect(() => {
     sceneState.reducedMotion = prefersReducedMotion()
-    initSmoothScroll()
+    const lenis = initSmoothScroll()
+    if (document.documentElement.classList.contains('is-intro')) lenis?.stop()
 
     // The workstation lives behind the hero and drifts away as it scrolls out.
     const heroTrigger = ScrollTrigger.create({
@@ -48,13 +53,14 @@ export default function App() {
 
   return (
     <>
+      <Intro onDone={onArrive} />
       <Cursor />
       <Nav />
       <Suspense fallback={null}>
         <Scene />
       </Suspense>
       <main className="content" id="top">
-        <Hero />
+        <Hero ready={arrived} />
         <Now />
         <Story />
         <NeoOffice />
