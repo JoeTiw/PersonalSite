@@ -5,10 +5,13 @@ import { Workstation } from './Workstation'
 import { ScrollTrigger } from '../lib/scroll'
 import { sceneState } from '../lib/scene-state'
 import { useIsMobile } from '../lib/useMedia'
+import { useTheme } from '../lib/theme'
 
 /** Fixed canvas behind the hero. Stops rendering once the hero has scrolled away. */
 export default function Scene() {
   const mobile = useIsMobile()
+  const [theme] = useTheme()
+  const dark = theme === 'dark'
   const [active, setActive] = useState(true)
 
   useEffect(() => {
@@ -39,12 +42,12 @@ export default function Scene() {
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', stencil: false }}
         onCreated={({ camera }) => camera.lookAt(0, 0.4, 0)}
       >
-        <hemisphereLight args={['#ffffff', '#d3d1c8', 1.0]} />
-        <directionalLight position={[4, 7, 5]} intensity={1.6} />
+        <hemisphereLight args={[dark ? '#e4e7f2' : '#ffffff', dark ? '#1a1b21' : '#d3d1c8', dark ? 1.3 : 1.0]} />
+        <directionalLight position={[4, 7, 5]} intensity={dark ? 2.0 : 1.6} />
         <directionalLight position={[-5, 3, -2]} intensity={0.5} color="#dfe6ff" />
         <pointLight position={[0.6, 0.9, 1.6]} intensity={2.2} distance={5} color="#8aa2ff" />
-        <Workstation mobile={mobile} />
-        <ContactShadows position={[mobile ? 0 : 2.0, mobile ? 0.6 : -1.2, 0]} opacity={0.3} scale={mobile ? 5 : 12} blur={2.6} far={4} frames={1} />
+        <Workstation mobile={mobile} dark={dark} />
+        <ContactShadows position={[mobile ? 0 : 2.0, mobile ? 0.6 : -1.2, 0]} opacity={dark ? 0.6 : 0.3} color={dark ? '#000000' : '#141519'} scale={mobile ? 5 : 12} blur={2.6} far={4} frames={1} />
       </Canvas>
     </div>
   )

@@ -82,10 +82,10 @@ function bezier(t: number, out: THREE.Vector3) {
   )
 }
 
-type Props = { mobile: boolean }
+type Props = { mobile: boolean; dark: boolean }
 
 /** A twin-engine airliner that flies a curved climb across the viewport as the chapter scrolls. */
-export function Airplane({ mobile }: Props) {
+export function Airplane({ mobile, dark }: Props) {
   const rig = useRef<THREE.Group>(null!)
   const beacon = useRef<THREE.Mesh>(null!)
   const strobeL = useRef<THREE.Mesh>(null!)
@@ -190,7 +190,7 @@ export function Airplane({ mobile }: Props) {
         <Wing sign={1} y={0.14} dihedral={0.12} rootLE={-1.35} rootChord={0.45} span={0.7} sweep={0.32} tipChord={0.18} color={GREY} />
         <Wing sign={-1} y={0.14} dihedral={0.12} rootLE={-1.35} rootChord={0.45} span={0.7} sweep={0.32} tipChord={0.18} color={GREY} />
         <mesh geometry={finGeo} position={[0, 0, -0.025]}>
-          <meshStandardMaterial color={ACCENT} roughness={0.45} />
+          <meshStandardMaterial color={dark ? '#8aa2ff' : ACCENT} roughness={0.45} />
         </mesh>
         <Engine z={0.78} />
         <Engine z={-0.78} />

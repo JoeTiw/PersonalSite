@@ -10,18 +10,29 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 const smooth = (a: number, b: number, v: number) => { const t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t) }
 const outCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
-const PAPER = '#f4f3ef'
-const INK = '#141519'
+type Palette = { paper: string; ink: string; rule: string; accent: string; dark: boolean }
 const GRAPHITE = '#2b2c33'
 const GREY = '#cfcec7'
-const ACCENT = '#2141b8'
 const WHITE = '#fbfaf7'
 
+function readPalette(): Palette {
+  const css = getComputedStyle(document.documentElement)
+  const tok = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback
+  return {
+    paper: tok('--paper', '#f4f3ef'),
+    ink: tok('--ink', '#141519'),
+    rule: tok('--rule', '#d7d6ce'),
+    accent: tok('--accent', '#2141b8'),
+    dark: document.documentElement.dataset.theme === 'dark',
+  }
+}
+
 /** Draws the 777 side-on in unit space: nose at x = -0.5, tail at x = 0.5, y down. */
-function drawPlane(ctx: CanvasRenderingContext2D, gear: number, beaconOn: boolean) {
+function drawPlane(ctx: CanvasRenderingContext2D, gear: number, beaconOn: boolean, pal: Palette) {
   const lw = 0.006
+  const INK = pal.dark ? '#0b0c10' : '#141519'
   // fin and stabiliser sit behind the fuselage
-  ctx.fillStyle = ACCENT
+  ctx.fillStyle = pal.accent
   ctx.beginPath(); ctx.moveTo(0.29, -0.07); ctx.lineTo(0.44, -0.3); ctx.lineTo(0.52, -0.3); ctx.lineTo(0.5, -0.07); ctx.closePath(); ctx.fill()
   ctx.fillStyle = GREY
   ctx.beginPath(); ctx.moveTo(0.4, -0.06); ctx.lineTo(0.57, -0.11); ctx.lineTo(0.59, -0.085); ctx.lineTo(0.5, -0.055); ctx.closePath(); ctx.fill()
@@ -124,6 +135,7 @@ export function Intro({ onDone }: Props) {
     resize()
     window.addEventListener('resize', resize)
 
+    const pal = readPalette()
     const t0 = performance.now()
     let raf = 0
 
@@ -156,7 +168,7 @@ export function Intro({ onDone }: Props) {
       const gearH = S * 0.222
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      ctx.fillStyle = PAPER
+      ctx.fillStyle = pal.paper
       ctx.fillRect(0, 0, W, H)
 
       const x0 = W * 1.18
@@ -166,10 +178,10 @@ export function Intro({ onDone }: Props) {
 
       // runway draws in from the left, with touchdown-zone ticks
       const run = outCubic(clamp01(e / 0.55))
-      ctx.strokeStyle = INK
+      ctx.strokeStyle = pal.ink
       ctx.lineWidth = 1
       ctx.beginPath(); ctx.moveTo(0, runwayY + 0.5); ctx.lineTo(W * run, runwayY + 0.5); ctx.stroke()
-      ctx.fillStyle = GREY
+      ctx.fillStyle = pal.rule
       for (let k = 0; k < 4; k++) {
         const x = tdX - 40 - k * 52
         if (x < W * run) { ctx.fillRect(x, runwayY + 6, 3, 14); ctx.fillRect(x + 8, runwayY + 6, 3, 14) }
@@ -203,7 +215,7 @@ export function Intro({ onDone }: Props) {
 
       // shadow on the runway
       const aglN = clamp01((runwayY - gearH - y) / (H * 0.5))
-      ctx.fillStyle = `rgba(20,21,25,${0.16 * (1 - aglN * 0.85)})`
+      ctx.fillStyle = `${pal.dark ? 'rgba(0,0,0,' : 'rgba(20,21,25,'}${(pal.dark ? 0.45 : 0.16) * (1 - aglN * 0.85)})`
       ctx.beginPath(); ctx.ellipse(x, runwayY + 2, S * 0.42 * (1 - aglN * 0.4), 4 + 4 * (1 - aglN), 0, 0, Math.PI * 2); ctx.fill()
 
       // touchdown smoke: small puffs off the main wheels, drifting back and up
@@ -215,7 +227,7 @@ export function Intro({ onDone }: Props) {
           const a = Math.max(0, 0.26 * (1 - age / 0.85))
           const r = 2 + age * 26 * (S / 420) + i * 0.6
           const wob = Math.sin(i * 1.7) * 6
-          ctx.fillStyle = `rgba(150,150,145,${a})`
+          ctx.fillStyle = `${pal.dark ? 'rgba(200,200,205,' : 'rgba(150,150,145,'}${a})`
           ctx.beginPath(); ctx.arc(wx + age * 70 + i * 9 + wob, runwayY - 2 - age * 26 - i * 1.2, r, 0, Math.PI * 2); ctx.fill()
         }
       }
@@ -225,7 +237,7 @@ export function Intro({ onDone }: Props) {
       ctx.translate(x, y)
       ctx.rotate(pitch)
       ctx.scale(S, S)
-      drawPlane(ctx, gear, (e * 3) % 1 < 0.25)
+      drawPlane(ctx, gear, (e * 3) % 1 < 0.25, pal)
       ctx.restore()
 
       // the greeting lands a beat after the wheels do

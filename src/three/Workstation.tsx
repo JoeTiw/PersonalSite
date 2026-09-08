@@ -5,20 +5,20 @@ import * as THREE from 'three'
 import { CodeScreen } from './CodeScreen'
 import { sceneState } from '../lib/scene-state'
 
-const GRAPHITE = '#1b1c21'
-const GRAPHITE_2 = '#2b2c33'
-const SHELL = '#e9e8e2'
-const KEY = '#f4f3ef'
-const ACCENT = '#2141b8'
+const PALETTE = {
+  light: { body: '#1b1c21', rear: '#2b2c33', base: '#1b1c21', shell: '#e9e8e2', key: '#f4f3ef', mouse: '#2b2c33', mug: '#e9e8e2', accent: '#2141b8' },
+  dark: { body: '#34353e', rear: '#41424c', base: '#2e2f38', shell: '#2b2c33', key: '#3d3e48', mouse: '#41424c', mug: '#e9e8e2', accent: '#8aa2ff' },
+}
 
 const KEY_ROWS = [14, 14, 13, 12]
 const KEY_PITCH = 0.165
 const KEY_SIZE = 0.14
 
-type Props = { mobile: boolean }
+type Props = { mobile: boolean; dark: boolean }
 
 /** A monitor, keyboard, mouse and mug built from primitives. The screen types code; the keys answer. */
-export function Workstation({ mobile }: Props) {
+export function Workstation({ mobile, dark }: Props) {
+  const C = dark ? PALETTE.dark : PALETTE.light
   const rig = useRef<THREE.Group>(null!)
   const keys = useRef<THREE.InstancedMesh>(null!)
   const screen = useMemo(() => new CodeScreen(), [])
@@ -92,7 +92,7 @@ export function Workstation({ mobile }: Props) {
           {/* monitor */}
           <group position={[0, 1.55, 0]}>
             <RoundedBox args={[3.3, 1.95, 0.09]} radius={0.04} smoothness={4}>
-              <meshStandardMaterial color={GRAPHITE} roughness={0.5} metalness={0.15} />
+              <meshStandardMaterial color={C.body} roughness={0.5} metalness={0.15} />
             </RoundedBox>
             <mesh position={[0, 0, 0.047]}>
               <planeGeometry args={[3.12, 1.77]} />
@@ -100,46 +100,46 @@ export function Workstation({ mobile }: Props) {
             </mesh>
             <mesh position={[0, -0.9, 0.047]}>
               <planeGeometry args={[0.16, 0.03]} />
-              <meshStandardMaterial color={ACCENT} emissive={ACCENT} emissiveIntensity={0.6} />
+              <meshStandardMaterial color={C.accent} emissive={C.accent} emissiveIntensity={0.6} />
             </mesh>
             {/* rear panel */}
             <RoundedBox args={[2.2, 1.2, 0.12]} radius={0.04} smoothness={3} position={[0, 0, -0.09]}>
-              <meshStandardMaterial color={GRAPHITE_2} roughness={0.6} />
+              <meshStandardMaterial color={C.rear} roughness={0.6} />
             </RoundedBox>
           </group>
           {/* stand */}
           <RoundedBox args={[0.22, 0.75, 0.16]} radius={0.03} smoothness={3} position={[0, 0.4, -0.12]}>
-            <meshStandardMaterial color={GRAPHITE_2} roughness={0.55} />
+            <meshStandardMaterial color={C.rear} roughness={0.55} />
           </RoundedBox>
           <RoundedBox args={[1.5, 0.06, 0.95]} radius={0.03} smoothness={3} position={[0, 0.03, -0.05]}>
-            <meshStandardMaterial color={GRAPHITE} roughness={0.5} metalness={0.2} />
+            <meshStandardMaterial color={C.base} roughness={0.5} metalness={0.2} />
           </RoundedBox>
 
           {/* keyboard */}
           <group position={[0.1, 0.02, 1.35]} rotation={[-0.08, 0, 0]}>
             <RoundedBox args={[2.6, 0.09, 0.85]} radius={0.03} smoothness={3}>
-              <meshStandardMaterial color={SHELL} roughness={0.7} />
+              <meshStandardMaterial color={C.shell} roughness={0.7} />
             </RoundedBox>
             <instancedMesh ref={keys} args={[undefined, undefined, keyPositions.length]}>
               <boxGeometry args={[KEY_SIZE, 0.05, KEY_SIZE]} />
-              <meshStandardMaterial color={KEY} roughness={0.75} />
+              <meshStandardMaterial color={C.key} roughness={0.75} />
             </instancedMesh>
             <mesh position={[0, 0.05, 0.4]}>
               <boxGeometry args={[0.95, 0.05, KEY_SIZE]} />
-              <meshStandardMaterial color={KEY} roughness={0.75} />
+              <meshStandardMaterial color={C.key} roughness={0.75} />
             </mesh>
           </group>
 
           {/* mouse */}
           <RoundedBox args={[0.34, 0.13, 0.56]} radius={0.06} smoothness={4} position={[1.85, 0.06, 1.35]} rotation={[0, -0.25, 0]}>
-            <meshStandardMaterial color={GRAPHITE_2} roughness={0.5} />
+            <meshStandardMaterial color={C.mouse} roughness={0.5} />
           </RoundedBox>
 
           {/* mug */}
           <group position={[-1.95, 0, 1.05]}>
             <mesh position={[0, 0.19, 0]}>
               <cylinderGeometry args={[0.17, 0.15, 0.38, 32]} />
-              <meshStandardMaterial color={SHELL} roughness={0.55} />
+              <meshStandardMaterial color={C.mug} roughness={0.55} />
             </mesh>
             <mesh position={[0, 0.375, 0]} rotation={[-Math.PI / 2, 0, 0]}>
               <circleGeometry args={[0.15, 32]} />
@@ -147,7 +147,7 @@ export function Workstation({ mobile }: Props) {
             </mesh>
             <mesh position={[0.2, 0.2, 0]} rotation={[0, 0, 0]}>
               <torusGeometry args={[0.1, 0.028, 12, 24]} />
-              <meshStandardMaterial color={SHELL} roughness={0.55} />
+              <meshStandardMaterial color={C.mug} roughness={0.55} />
             </mesh>
           </group>
         </group>
