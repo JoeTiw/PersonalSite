@@ -1,11 +1,11 @@
 # bhupin.com
 
-Personal site of Bhupin Tiwari. One page, scroll-driven, with an instanced Three.js field that morphs between a formation per chapter.
+Personal site of Bhupin Tiwari. One page, scroll-driven, with a Three.js developer workstation behind the hero: a monitor that types code on a canvas texture, a keyboard whose keys react, built entirely from primitives (no model files).
 
 ## Stack
 
 - Vite + React 19 + TypeScript
-- Three.js via React Three Fiber (the particle field in `src/three`)
+- Three.js via React Three Fiber and drei (the workstation in `src/three`)
 - GSAP 3.15 with ScrollTrigger and SplitText, Lenis for smooth scrolling
 - Motion for the Neo Office screen transitions
 - Fonts self-hosted through Fontsource: Instrument Serif, Geist, Geist Mono

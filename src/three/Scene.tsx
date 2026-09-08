@@ -1,13 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Field } from './Field'
+import { ContactShadows } from '@react-three/drei'
+import { Workstation } from './Workstation'
+import { ScrollTrigger } from '../lib/scroll'
 import { sceneState } from '../lib/scene-state'
 import { useIsMobile } from '../lib/useMedia'
 
-/** Full-viewport, fixed canvas that sits behind the page content. */
+/** Fixed canvas behind the hero. Stops rendering once the hero has scrolled away. */
 export default function Scene() {
   const mobile = useIsMobile()
-  const count = mobile ? 900 : 2200
+  const [active, setActive] = useState(true)
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -15,17 +17,34 @@ export default function Scene() {
       sceneState.pointer.y = (e.clientY / window.innerHeight) * 2 - 1
     }
     window.addEventListener('pointermove', onMove, { passive: true })
-    return () => window.removeEventListener('pointermove', onMove)
+    const st = ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      onLeave: () => setActive(false),
+      onEnterBack: () => setActive(true),
+    })
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      st.kill()
+    }
   }, [])
 
   return (
-    <div className="scene" aria-hidden="true">
+    <div className={`scene${active ? '' : ' is-hidden'}`} aria-hidden="true">
       <Canvas
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 7.6], fov: 38, near: 0.1, far: 50 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', stencil: false, depth: true }}
+        frameloop={active ? 'always' : 'never'}
+        camera={{ position: [0, 1.6, 8.4], fov: 30, near: 0.1, far: 40 }}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', stencil: false }}
+        onCreated={({ camera }) => camera.lookAt(0, 0.4, 0)}
       >
-        <Field count={count} mobile={mobile} />
+        <hemisphereLight args={['#ffffff', '#d3d1c8', 1.0]} />
+        <directionalLight position={[4, 7, 5]} intensity={1.6} />
+        <directionalLight position={[-5, 3, -2]} intensity={0.5} color="#dfe6ff" />
+        <pointLight position={[0.6, 0.9, 1.6]} intensity={2.2} distance={5} color="#8aa2ff" />
+        <Workstation mobile={mobile} />
+        <ContactShadows position={[mobile ? 0 : 2.0, mobile ? 0.6 : -1.2, 0]} opacity={0.3} scale={mobile ? 5 : 12} blur={2.6} far={4} frames={1} />
       </Canvas>
     </div>
   )

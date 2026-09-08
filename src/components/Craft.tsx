@@ -4,7 +4,7 @@ import { Fade, Reveal } from './Reveal'
 export function Craft() {
   const loop = [...tools, ...tools]
   return (
-    <section className="section-pad" data-formation="craft" id="craft">
+    <section className="section-pad" id="craft">
       <div className="container">
         <div className="section-head">
           <Fade as="p" className="eyebrow">How I work</Fade>

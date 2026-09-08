@@ -44,7 +44,7 @@ export function Photos() {
   }, [])
 
   return (
-    <section className="photos" data-formation="photos" id="photos" ref={section}>
+    <section className="photos" id="photos" ref={section}>
       <div className="photos-inner">
         <div className="container section-head">
           <Fade as="p" className="eyebrow">Off the clock</Fade>

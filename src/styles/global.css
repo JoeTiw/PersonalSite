@@ -62,7 +62,8 @@ p { margin: 0; }
 .measure { max-width: 60ch; color: var(--ink-2); }
 
 /* ---------- layers ---------- */
-.scene { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.scene { position: fixed; inset: 0; z-index: 0; pointer-events: none; transition: opacity 0.4s; }
+.scene.is-hidden { opacity: 0; visibility: hidden; }
 .scene canvas { display: block; }
 .content { position: relative; z-index: 1; }
 

@@ -21,7 +21,7 @@ export function Hero() {
   }, [])
 
   return (
-    <section className="hero" data-formation="hero" ref={root}>
+    <section className="hero" ref={root}>
       <div className="container">
         <p className="eyebrow">
           <b>{site.role}</b> &nbsp;·&nbsp; {site.location}

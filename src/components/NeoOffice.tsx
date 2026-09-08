@@ -26,7 +26,7 @@ export function NeoOffice() {
   const Screen = screens[neoSteps[active].key]
 
   return (
-    <section className="section-pad" data-formation="neo" id="neo">
+    <section className="section-pad" id="neo">
       <div className="container neo-grid">
         <div className="neo-steps" ref={stepsRef}>
           <header>
