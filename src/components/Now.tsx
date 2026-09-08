@@ -1,5 +1,8 @@
+import { Suspense, lazy } from 'react'
 import { site } from '../data/content'
 import { Fade, Reveal } from './Reveal'
+
+const Portrait = lazy(() => import('../three/Portrait'))
 
 const items = [
   {
@@ -41,8 +44,16 @@ export function Now() {
           </div>
         </div>
         <Fade as="figure" className="now-portrait" delay={0.15}>
-          <img src="/img/portrait.webp" alt="Bhupin Tiwari" width={900} height={900} loading="lazy" decoding="async" />
-          <figcaption className="mono">Bhupin, 2023</figcaption>
+          <Suspense
+            fallback={
+              <>
+                <img src="/img/portrait.webp" alt="Bhupin Tiwari" width={900} height={900} loading="lazy" decoding="async" />
+                <figcaption className="mono">Bhupin, 2023</figcaption>
+              </>
+            }
+          >
+            <Portrait src="/img/portrait.webp" caption="Bhupin, 2023" />
+          </Suspense>
         </Fade>
       </div>
     </section>
