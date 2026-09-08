@@ -12,7 +12,6 @@
   --card: #fbfaf7;
   --shadow-rgb: 20, 21, 25;
   --device-edge: rgba(20, 21, 25, 0.08);
-  --photos-bg: #ebeae4;
 
   --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --sans: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
@@ -29,7 +28,7 @@
     --paper: #121317; --paper-2: #1a1b21; --paper-3: #22242c;
     --ink: #ececef; --ink-2: #b6b8c2; --ink-3: #82848f; --rule: #2c2e36;
     --accent: #8aa2ff; --accent-soft: #1c2340; --accent-ink: #0e1120;
-    --card: #1a1b21; --shadow-rgb: 0, 0, 0; --device-edge: rgba(255, 255, 255, 0.1); --photos-bg: #0a0b0e;
+    --card: #1a1b21; --shadow-rgb: 0, 0, 0; --device-edge: rgba(255, 255, 255, 0.1);
     color-scheme: dark;
   }
 }
@@ -37,7 +36,7 @@
   --paper: #121317; --paper-2: #1a1b21; --paper-3: #22242c;
   --ink: #ececef; --ink-2: #b6b8c2; --ink-3: #82848f; --rule: #2c2e36;
   --accent: #8aa2ff; --accent-soft: #1c2340; --accent-ink: #0e1120;
-  --card: #1a1b21; --shadow-rgb: 0, 0, 0; --device-edge: rgba(255, 255, 255, 0.1); --photos-bg: #0a0b0e;
+  --card: #1a1b21; --shadow-rgb: 0, 0, 0; --device-edge: rgba(255, 255, 255, 0.1);
   color-scheme: dark;
 }
 html { transition: background-color 0.35s; }
@@ -337,7 +336,7 @@ section { position: relative; }
 
 /* ---------- photos: a 3D ring on a dark ground ---------- */
 .photos {
-  background: var(--photos-bg);
+  background: var(--paper);
   color: var(--ink);
   transition: background-color 0.35s, color 0.35s;
   padding-block: clamp(80px, 14vh, 160px) clamp(56px, 8vh, 96px);
