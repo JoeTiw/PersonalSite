@@ -138,3 +138,14 @@ export const photos: Photo[] = [
   { src: '/photos/pic5.webp', title: 'Landscape', caption: 'My class loved it.', w: 1600, h: 1067 },
   { src: '/photos/pic9.webp', title: 'Dr. Pepper', caption: 'Class project.', w: 1600, h: 1067 },
 ]
+
+export const aviation = {
+  passenger: 'Tiwari / Bhupin',
+  from: { code: 'ATW', name: 'Appleton Intl' },
+  to: { code: 'ANY', name: 'Window seat' },
+  flight: 'NG 777',
+  aircraft: 'Boeing 777-200ER',
+  seat: '32A',
+  gate: 'B7',
+  status: 'Wheels up',
+}

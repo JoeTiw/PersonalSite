@@ -4,6 +4,8 @@
 export const sceneState = {
   /** 0 while the hero is fully in view, 1 once it has scrolled away. */
   heroProgress: 0,
+  /** 0 when the aviation chapter enters, 1 when the plane has flown through it. */
+  flightProgress: 0,
   /** Normalised pointer, -1..1 on both axes. */
   pointer: { x: 0, y: 0 },
   /** True when the OS asks for reduced motion. */

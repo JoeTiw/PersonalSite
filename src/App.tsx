@@ -9,6 +9,7 @@ import { Story } from './components/Story'
 import { NeoOffice } from './components/NeoOffice'
 import { Work } from './components/Work'
 import { Craft } from './components/Craft'
+import { Aviation } from './components/Aviation'
 import { Photos } from './components/Photos'
 import { Contact } from './components/Contact'
 
@@ -53,6 +54,7 @@ export default function App() {
         <NeoOffice />
         <Work />
         <Craft />
+        <Aviation />
         <Photos />
         <Contact />
       </main>

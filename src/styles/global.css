@@ -344,3 +344,55 @@ section { position: relative; }
   [data-reveal] { opacity: 1; transform: none; }
   .now-portrait img, .photo-frame img { transform: none; }
 }
+
+/* ---------- aviation ---------- */
+.aviation { position: relative; overflow: hidden; min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--nav-h) + 4vh) 8vh; }
+.aviation-sky { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.aviation-sky canvas { display: block; }
+.aviation-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 560px); gap: clamp(28px, 4vh, 48px); }
+.aviation-copy { display: grid; gap: 18px; }
+.aviation-copy h2 { font-size: clamp(48px, 7vw, 96px); line-height: 0.95; letter-spacing: -0.02em; }
+.pass {
+  display: grid; grid-template-columns: minmax(0, 1fr) 120px;
+  border: 1px solid var(--rule); border-radius: 12px; overflow: hidden;
+  background: #fbfaf7;
+  box-shadow: 0 24px 60px -30px rgba(20, 21, 25, 0.35);
+  position: relative;
+}
+.pass::before, .pass::after {
+  content: ''; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--paper);
+  right: 109px; border: 1px solid var(--rule);
+}
+.pass::before { top: -12px; }
+.pass::after { bottom: -12px; }
+.pass-main { padding: 18px 20px 20px; display: grid; gap: 16px; }
+.pass-head { display: flex; justify-content: space-between; align-items: baseline; color: var(--ink-3); }
+.pass-brand { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.pass-brand b { color: var(--ink); font-weight: 500; margin-left: 6px; }
+.pass-route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; }
+.pass-route > div { display: grid; gap: 2px; }
+.pass-route .mono { color: var(--ink-3); }
+.pass-code { font-family: var(--serif); font-size: clamp(34px, 3vw, 44px); line-height: 1; letter-spacing: -0.01em; }
+.pass-arrow { position: relative; height: 1px; background: var(--rule); display: block; }
+.pass-arrow i { position: absolute; left: 0; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); animation: taxi 3.2s var(--ease-out) infinite; }
+@keyframes taxi { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 14px); opacity: 0; } }
+.pass-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 14px; border-top: 1px dashed var(--rule); padding-top: 14px; }
+.pass-field { display: grid; gap: 3px; min-width: 0; }
+.pass-field .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.pass-field .v { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pass-field .v.is-accent { color: var(--accent); }
+.pass-stub { border-left: 1px dashed var(--rule); background: var(--paper-2); padding: 18px 14px; display: grid; align-content: space-between; justify-items: center; gap: 12px; }
+.pass-stub .mono { writing-mode: vertical-rl; transform: rotate(180deg); color: var(--ink-2); }
+.pass-barcode { width: 44px; height: 100%; min-height: 90px; background: repeating-linear-gradient(0deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 9px, var(--ink) 9px 12px, transparent 12px 14px); opacity: 0.85; border-radius: 2px; }
+@media (max-width: 767px) {
+  .aviation { min-height: 0; display: block; padding-top: 0; }
+  .aviation-sky { position: relative; height: 52svh; inset: auto; }
+  .aviation-inner { grid-template-columns: minmax(0, 1fr); margin-top: -6vh; }
+  .pass-field .v { white-space: normal; }
+  .pass { grid-template-columns: minmax(0, 1fr) 84px; }
+  .pass::before, .pass::after { right: 73px; }
+  .pass-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pass-stub { padding: 14px 10px; }
+  .pass-barcode { width: 32px; }
+}
+@media (prefers-reduced-motion: reduce) { .pass-arrow i { animation: none; left: calc(50% - 7px); opacity: 1; } }
