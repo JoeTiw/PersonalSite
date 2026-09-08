@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react'
 import { ScrollTrigger, gsap } from '../lib/scroll'
 import { sceneState } from '../lib/scene-state'
 import { aviation, site } from '../data/content'
@@ -12,7 +12,7 @@ export function Aviation() {
   const sky = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mm = gsap.matchMedia()
     const common = {
       trigger: section.current,

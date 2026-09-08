@@ -30,7 +30,13 @@ export default function App() {
       },
     })
 
-    const refresh = () => ScrollTrigger.refresh()
+    // Pinned sections are created by child effects in DOM order, but any pin created after a
+    // sibling below it would shift that sibling's measurements. Sort so refresh walks the page top-down.
+    const refresh = () => {
+      ScrollTrigger.sort()
+      ScrollTrigger.refresh()
+    }
+    refresh()
     document.fonts?.ready.then(refresh)
     window.addEventListener('load', refresh)
     return () => {
