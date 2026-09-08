@@ -7,9 +7,9 @@ export default defineConfig({
   base: '/',
   build: {
     target: 'es2020',
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        advancedChunks: {
+        codeSplitting: {
           groups: [
             { name: 'three', test: /node_modules[\\/](three|@react-three)[\\/]/ },
             { name: 'gsap', test: /node_modules[\\/]gsap[\\/]/ },
