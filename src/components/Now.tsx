@@ -15,7 +15,7 @@ const items = [
   {
     k: 'Base',
     title: 'Appleton, Wisconsin',
-    body: 'Fox Valley born and raised. Most of our first stores are within a tank of gas of here.',
+    body: 'Born in Nepal, raised in Appleton. Most of our first stores are within a tank of gas of here.',
   },
 ]
 
