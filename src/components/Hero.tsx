@@ -24,7 +24,7 @@ export function Hero() {
     <section className="hero" ref={root}>
       <div className="container">
         <p className="eyebrow">
-          <b>{site.role}</b> &nbsp;·&nbsp; {site.location}
+          <b>{site.role}</b><i> &nbsp;·&nbsp; </i><span>{site.location}</span>
         </p>
         <h1 className="hero-title" aria-label="Bhupin Tiwari">
           <span className="line"><span>Bhupin</span></span>

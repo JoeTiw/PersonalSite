@@ -46,10 +46,10 @@ export function Photos() {
   return (
     <section className="photos" id="photos" ref={section}>
       <div className="photos-inner">
-        <div className="container section-head">
+        <div className="container"><div className="section-head">
           <Fade as="p" className="eyebrow">Off the clock</Fade>
           <Reveal as="h2">I never got good at this. <em>I still do it.</em></Reveal>
-        </div>
+        </div></div>
         <div className="photos-track" ref={track}>
           {photos.map((p) => (
             <figure className="photo" key={p.src}>

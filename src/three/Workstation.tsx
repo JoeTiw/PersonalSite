@@ -75,12 +75,12 @@ export function Workstation({ mobile }: Props) {
     rot.current.x = THREE.MathUtils.damp(rot.current.x, py * 0.08, 3, dt)
     const g = rig.current
     // Phones: small, in the open space above the title. Desktop: right of the title, a little above centre.
-    const scale = mobile ? Math.min(0.42, width / 5.5) : Math.min(1, height / 5.6, width / 9)
+    const scale = mobile ? Math.min(0.46, width / 5.2) : Math.min(1, height / 5.6, width / 9)
     g.scale.setScalar(scale * (1 - hp * 0.25))
     g.rotation.set(rot.current.x + hp * 0.5, rot.current.y + hp * 0.6, 0)
     g.position.set(
       mobile ? 0 : width * 0.22,
-      (mobile ? height * 0.26 : height * 0.05) - hp * height * 0.9,
+      (mobile ? height * 0.27 : height * 0.05) - hp * height * 0.9,
       0,
     )
   })

@@ -39,10 +39,10 @@ export function Story() {
   return (
     <section className="story" id="story" ref={section}>
       <div className="story-inner">
-        <div className="container section-head">
+        <div className="container"><div className="section-head">
           <Fade as="p" className="eyebrow">The founder story</Fade>
           <Reveal as="h2">Two brothers, <em>one company.</em></Reveal>
-        </div>
+        </div></div>
         <div className="story-track" ref={track}>
           {story.map((c, i) => (
             <article className="chapter" key={c.label}>
