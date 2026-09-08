@@ -339,14 +339,10 @@ section { position: relative; }
 /* ---------- contact ---------- */
 .contact { min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; padding-top: calc(var(--nav-h) + 12vh); }
 .contact-title { font-size: clamp(48px, 9vw, 132px); line-height: 0.92; letter-spacing: -0.03em; max-width: 12ch; }
-.contact-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; margin-top: clamp(32px, 6vh, 72px); }
+.contact-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: end; margin-top: clamp(32px, 6vh, 72px); }
 .contact-email { font-family: var(--serif); font-size: clamp(24px, 3.4vw, 46px); letter-spacing: -0.01em; display: inline-block; border-bottom: 1px solid var(--ink); padding-bottom: 4px; }
-.contact-links { display: grid; gap: 8px; justify-items: end; }
-.contact-links a { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; display: inline-flex; gap: 8px; align-items: center; }
-.contact-links a::before { content: ''; width: 14px; height: 1px; background: currentColor; transition: width 0.4s var(--ease-out); }
-.contact-links a:hover::before { width: 28px; }
 .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; padding: 28px 0 32px; margin-top: 12vh; border-top: 1px solid var(--rule); color: var(--ink-3); }
-@media (max-width: 640px) { .contact-row { grid-template-columns: 1fr; } .contact-links { justify-items: start; } }
+
 
 /* ---------- reveal helpers ---------- */
 .split-line { overflow: hidden; }

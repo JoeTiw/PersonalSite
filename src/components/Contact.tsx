@@ -17,11 +17,6 @@ export function Contact() {
               <a className="contact-email" href={`mailto:${site.email}`} data-cursor="link">{site.email}</a>
             </p>
           </div>
-          <div className="contact-links">
-            <a href={site.github} target="_blank" rel="noreferrer" data-cursor="link">GitHub</a>
-            <a href={site.company} target="_blank" rel="noreferrer" data-cursor="link">Neogen Technologies</a>
-            <a href={`mailto:${site.email}`} data-cursor="link">Email</a>
-          </div>
         </div>
       </div>
       <div className="container">
