@@ -33,7 +33,7 @@ export function Aviation() {
   }, [])
 
   return (
-    <section className="aviation" id="aviation" ref={section}>
+    <section className="aviation" id="aviation" ref={section} data-chapter="06 · Wheels up">
       <div className="aviation-sky" aria-hidden="true" ref={sky}>
         <Suspense fallback={null}>
           <FlightScene active={active} />

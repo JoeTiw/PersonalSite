@@ -411,3 +411,51 @@ section { position: relative; }
   .pass-barcode { width: 32px; }
 }
 @media (prefers-reduced-motion: reduce) { .pass-arrow i { animation: none; left: calc(50% - 7px); opacity: 1; } }
+
+/* ---------- phone rhythm: tighter sections, chapter markers in the seams ---------- */
+@media (max-width: 767px) {
+  .section-pad { padding-block: 44px 64px; }
+  /* the chapter marker already names the section on phones */
+  section[data-chapter] .eyebrow { display: none; }
+  .neo-step { min-height: 0; padding-block: 36px; }
+  .neo-steps header { padding-block: 8px 28px; }
+  .story-inner { padding-block: 44px 24px; gap: 28px; }
+  .photos-inner { padding-block: 44px 32px; }
+  .aviation { padding-bottom: 56px; }
+  .aviation-sky { height: 46svh; }
+  .contact { min-height: 0; padding-top: 44px; }
+  .contact-row { margin-top: 32px; }
+  .footer { margin-top: 56px; }
+  .cards { margin-top: 32px; }
+  .principles { margin-top: 32px; }
+  .marquee { margin-top: 40px; }
+
+  .content > section[data-chapter]::before {
+    content: attr(data-chapter);
+    display: block;
+    width: min(100% - var(--gutter) * 2, var(--container));
+    margin: 0 auto 28px;
+    padding-top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    background:
+      linear-gradient(var(--accent), var(--accent)) left top / 100% 2px no-repeat,
+      linear-gradient(var(--rule), var(--rule)) left top / 100% 1px no-repeat;
+    animation: chapter-line linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 70%;
+  }
+  .content > section.story::before, .content > section.photos::before, .content > section.aviation::before {
+    position: relative; z-index: 1;
+  }
+  .content > section.aviation::before { margin-bottom: 0; }
+  .content > .contact::before { margin-bottom: 0; }
+}
+@keyframes chapter-line {
+  from { background-size: 0% 2px, 100% 1px; }
+  to { background-size: 100% 2px, 100% 1px; }
+}
+@media (prefers-reduced-motion: reduce) { .content > section[data-chapter]::before { animation: none; } }

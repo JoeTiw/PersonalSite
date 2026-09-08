@@ -37,7 +37,7 @@ export function Story() {
   }, [])
 
   return (
-    <section className="story" id="story" ref={section}>
+    <section className="story" id="story" ref={section} data-chapter="02 · The founder story">
       <div className="story-inner">
         <div className="container"><div className="section-head">
           <Fade as="p" className="eyebrow">The founder story</Fade>

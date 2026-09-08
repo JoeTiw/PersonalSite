@@ -97,7 +97,7 @@ export function Photos() {
   }
 
   return (
-    <section className="photos" id="photos" ref={section}>
+    <section className="photos" id="photos" ref={section} data-chapter="07 · Off the clock">
       <div className="photos-inner">
         <div className="container"><div className="section-head">
           <Fade as="p" className="eyebrow">Off the clock</Fade>

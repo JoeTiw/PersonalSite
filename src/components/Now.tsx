@@ -21,7 +21,7 @@ const items = [
 
 export function Now() {
   return (
-    <section className="section-pad" id="now">
+    <section className="section-pad" id="now" data-chapter="01 · Now">
       <div className="container now-grid">
         <div>
           <div className="section-head">

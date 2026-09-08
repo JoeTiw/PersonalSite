@@ -30,7 +30,7 @@ export function Work() {
   }, [])
 
   return (
-    <section className="section-pad" id="work">
+    <section className="section-pad" id="work" data-chapter="04 · Earlier work">
       <div className="container">
         <div className="section-head">
           <Fade as="p" className="eyebrow">Earlier work</Fade>
