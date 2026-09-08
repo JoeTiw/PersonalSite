@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getLenis, gsap } from '../lib/scroll'
 import { prefersReducedMotion } from '../lib/scene-state'
 
-const TOTAL = 3.05 // seconds of flight before the curtain lifts
+const TOTAL = 3.25 // seconds of flight before the curtain lifts
 const TOUCHDOWN = 2.15
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
@@ -95,6 +95,8 @@ export function Intro({ onDone }: Props) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const speed = useRef<HTMLSpanElement>(null)
   const alt = useRef<HTMLSpanElement>(null)
+  const msg = useRef<HTMLParagraphElement>(null)
+  const greeted = useRef(false)
   const finished = useRef(false)
   const doneRef = useRef(onDone)
   doneRef.current = onDone
@@ -134,7 +136,7 @@ export function Intro({ onDone }: Props) {
       doneRef.current()
       gsap.to(el, {
         yPercent: -100,
-        duration: fast ? 0.55 : 0.8,
+        duration: fast ? 0.5 : 0.7,
         ease: 'power4.inOut',
         onComplete: () => setActive(false),
       })
@@ -213,6 +215,12 @@ export function Intro({ onDone }: Props) {
       drawPlane(ctx, gear, (e * 3) % 1 < 0.25)
       ctx.restore()
 
+      // the greeting lands a beat after the wheels do
+      if (e >= TOUCHDOWN + 0.12 && !greeted.current && msg.current) {
+        greeted.current = true
+        gsap.fromTo(msg.current, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' })
+      }
+
       if (speed.current) speed.current.textContent = `${String(spd).padStart(3, '0')} KT`
       if (alt.current) alt.current.textContent = `${String(agl).padStart(3, '0')} FT`
 
@@ -243,6 +251,9 @@ export function Intro({ onDone }: Props) {
   return (
     <div className="intro" ref={root} role="presentation">
       <canvas ref={canvas} aria-hidden="true" />
+      <p className="intro-msg" ref={msg}>
+        You’ve landed <em>successfully</em> on Bhupin’s website.
+      </p>
       <div className="intro-hud mono" aria-hidden="true">
         <span className="intro-hud-k">ATW · RWY 03 · CLEARED TO LAND</span>
         <span className="intro-hud-v"><span ref={speed}>142 KT</span> · <span ref={alt}>420 FT</span></span>
