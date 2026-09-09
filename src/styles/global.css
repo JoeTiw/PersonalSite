@@ -215,7 +215,10 @@ section { position: relative; }
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2);
 }
 
-.story-cards { display: grid; gap: clamp(16px, 2vw, 24px); margin: 0; padding: 0; list-style: none; }
+.story-window { --gap: clamp(16px, 2vw, 24px); position: relative; }
+.story-track { display: grid; gap: var(--gap); margin: 0; padding: 0; list-style: none; }
+.story-track.is-clone { display: none; }
+
 .story-card {
   --card-bg: var(--ink);
   --card-ink: var(--paper);
@@ -230,21 +233,20 @@ section { position: relative; }
   align-content: start;
   box-shadow: 0 30px 60px -40px rgba(var(--shadow-rgb), 0.7);
 }
-:root[data-theme="dark"] .story-card,
-:root:not([data-theme="light"]) .story-card {
+:root[data-theme="dark"] .story-card {
   --card-bg: var(--paper-2);
   --card-ink: var(--ink);
   --card-ink-2: var(--ink-2);
   --card-rule: var(--rule);
   box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.9), inset 0 0 0 1px var(--rule);
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .story-card {
-    --card-bg: var(--ink);
-    --card-ink: var(--paper);
-    --card-ink-2: rgba(244, 243, 239, 0.62);
-    --card-rule: rgba(244, 243, 239, 0.16);
-    box-shadow: 0 30px 60px -40px rgba(var(--shadow-rgb), 0.7);
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .story-card {
+    --card-bg: var(--paper-2);
+    --card-ink: var(--ink);
+    --card-ink-2: var(--ink-2);
+    --card-rule: var(--rule);
+    box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.9), inset 0 0 0 1px var(--rule);
   }
 }
 .story-card-head { display: flex; align-items: center; gap: 12px; }
@@ -256,21 +258,28 @@ section { position: relative; }
   font-family: var(--mono); font-size: 12px; color: var(--card-ink);
 }
 .story-label { color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; font-size: 11px; }
-:root[data-theme="dark"] .story-label, :root:not([data-theme="light"]) .story-label { color: var(--accent); }
 .story-card h3 { font-size: clamp(24px, 2.3vw, 34px); line-height: 1.08; letter-spacing: -0.01em; color: var(--card-ink); }
 .story-card p { color: var(--card-ink-2); max-width: 52ch; }
 .story-steps { display: flex; align-items: center; gap: 7px; margin-top: 4px; padding-top: 16px; border-top: 1px solid var(--card-rule); }
-.story-steps i { width: 6px; height: 6px; border-radius: 50%; background: var(--card-rule); transition: width 0.4s var(--ease-out); }
+.story-steps i { width: 6px; height: 6px; border-radius: 50%; background: var(--card-rule); }
 .story-steps i.on { width: 20px; border-radius: 3px; background: var(--accent); }
 .story-steps .mono { margin-left: auto; color: var(--card-ink-2); font-variant-numeric: tabular-nums; }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
-    .story-card { animation: card-focus linear both; animation-timeline: view(); animation-range: entry 0% cover 42%; }
-    @keyframes card-focus {
-      from { opacity: 0; transform: translateY(48px) scale(0.96); }
-      to { opacity: 1; transform: none; }
-    }
+/* The drifting, masked window. Desktop only: a drift nobody can pause is no good on touch. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story-window {
+    height: min(72vh, 660px);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%);
+  }
+  .story-track { animation: story-drift 52s linear infinite; will-change: transform; }
+  .story-track.is-clone { display: grid; margin-top: var(--gap); }
+  .story-window:hover .story-track,
+  .story-window:focus-within .story-track { animation-play-state: paused; }
+  @keyframes story-drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-100% - var(--gap))); }
   }
 }
 

@@ -2,7 +2,32 @@ import { story, site } from '../data/content'
 import { Fade, Reveal } from './Reveal'
 import { Magnetic } from './Magnetic'
 
-/** The founder story: a sticky heading beside a scrolling stack of chapter cards. */
+type CardProps = { chapter: (typeof story)[number]; index: number }
+
+function StoryCard({ chapter, index }: CardProps) {
+  return (
+    <li className="story-card">
+      <div className="story-card-head">
+        <span className="story-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <span className="story-label mono">{chapter.label}</span>
+      </div>
+      <h3>{chapter.title}</h3>
+      <p>{chapter.body}</p>
+      <div className="story-steps" aria-hidden="true">
+        {story.map((s, k) => (
+          <i key={s.label} className={k === index ? 'on' : ''} />
+        ))}
+        <span className="mono">{String(index + 1).padStart(2, '0')} / {String(story.length).padStart(2, '0')}</span>
+      </div>
+    </li>
+  )
+}
+
+/**
+ * The founder story: a sticky heading beside a column of chapter cards that drift
+ * slowly through a masked window, dissolving into the fade at both ends.
+ * Phones get the same cards as a plain stack, since there is no hover to pause a drift.
+ */
 export function Story() {
   return (
     <section className="story section-pad" id="story" data-chapter="02 · The founder story">
@@ -18,24 +43,19 @@ export function Story() {
           </Fade>
         </div>
 
-        <ol className="story-cards">
-          {story.map((c, i) => (
-            <li className="story-card" key={c.label}>
-              <div className="story-card-head">
-                <span className="story-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span className="story-label mono">{c.label}</span>
-              </div>
-              <h3>{c.title}</h3>
-              <p>{c.body}</p>
-              <div className="story-steps" aria-hidden="true">
-                {story.map((s, k) => (
-                  <i key={s.label} className={k === i ? 'on' : ''} />
-                ))}
-                <span className="mono">{String(i + 1).padStart(2, '0')} / {String(story.length).padStart(2, '0')}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div className="story-window">
+          <ol className="story-track">
+            {story.map((c, i) => (
+              <StoryCard key={c.label} chapter={c} index={i} />
+            ))}
+          </ol>
+          {/* A second pass of the same cards keeps the drift seamless; hidden from assistive tech. */}
+          <ol className="story-track is-clone" aria-hidden="true">
+            {story.map((c, i) => (
+              <StoryCard key={c.label} chapter={c} index={i} />
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )
