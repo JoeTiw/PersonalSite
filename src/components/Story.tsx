@@ -1,61 +1,41 @@
-import { useLayoutEffect, useRef } from 'react'
-import { ScrollTrigger, gsap } from '../lib/scroll'
-import { story } from '../data/content'
+import { story, site } from '../data/content'
 import { Fade, Reveal } from './Reveal'
+import { Magnetic } from './Magnetic'
 
-/** The founder story as a pinned, horizontally scrubbed timeline. Stacks vertically on phones. */
+/** The founder story: a sticky heading beside a scrolling stack of chapter cards. */
 export function Story() {
-  const section = useRef<HTMLElement>(null)
-  const track = useRef<HTMLDivElement>(null)
-  const bar = useRef<HTMLElement>(null)
-
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia()
-    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-      const distance = () => (track.current?.scrollWidth ?? 0) - window.innerWidth
-      const tween = gsap.to(track.current, {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section.current,
-          pin: true,
-          scrub: true,
-          start: 'top top',
-          end: () => `+=${distance() + window.innerHeight * 0.4}`,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onUpdate: (self) => gsap.set(bar.current, { scaleX: self.progress }),
-        },
-      })
-      return () => {
-        tween.scrollTrigger?.kill()
-        tween.kill()
-      }
-    })
-    ScrollTrigger.refresh()
-    return () => mm.revert()
-  }, [])
-
   return (
-    <section className="story" id="story" ref={section} data-chapter="02 · The founder story">
-      <div className="story-inner">
-        <div className="container"><div className="section-head">
-          <Fade as="p" className="eyebrow">The founder story</Fade>
+    <section className="story section-pad" id="story" data-chapter="02 · The founder story">
+      <div className="container story-grid">
+        <div className="story-aside">
+          <Fade as="p" className="pill">The founder story</Fade>
           <Reveal as="h2">Two brothers, <em>one company.</em></Reveal>
-        </div></div>
-        <div className="story-track" ref={track}>
+          <Fade as="p" className="story-lede" delay={0.1}>
+            How a habit of taking things apart turned into a company, and then into software running in real stores.
+          </Fade>
+          <Fade delay={0.2}>
+            <Magnetic href={site.company}>Visit Neogen ↗</Magnetic>
+          </Fade>
+        </div>
+
+        <ol className="story-cards">
           {story.map((c, i) => (
-            <article className="chapter" key={c.label}>
-              <div className="chapter-label">
-                <span className="mono" style={{ color: 'var(--accent)' }}>{c.label}</span>
-                <span className="mono">{String(i + 1).padStart(2, '0')} / {String(story.length).padStart(2, '0')}</span>
+            <li className="story-card" key={c.label}>
+              <div className="story-card-head">
+                <span className="story-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span className="story-label mono">{c.label}</span>
               </div>
               <h3>{c.title}</h3>
               <p>{c.body}</p>
-            </article>
+              <div className="story-steps" aria-hidden="true">
+                {story.map((s, k) => (
+                  <i key={s.label} className={k === i ? 'on' : ''} />
+                ))}
+                <span className="mono">{String(i + 1).padStart(2, '0')} / {String(story.length).padStart(2, '0')}</span>
+              </div>
+            </li>
           ))}
-        </div>
-        <div className="story-progress" aria-hidden="true"><i ref={bar} /></div>
+        </ol>
       </div>
     </section>
   )
