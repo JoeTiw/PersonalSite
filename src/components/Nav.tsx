@@ -4,7 +4,6 @@ import { useTheme } from '../lib/theme'
 
 const links = [
   { href: '#story', label: 'Story' },
-  { href: '#neo', label: 'Neo Office' },
   { href: '#work', label: 'Work' },
   { href: '#contact', label: 'Contact' },
 ]

@@ -7,7 +7,6 @@ import { Cursor } from './components/Cursor'
 import { Hero } from './components/Hero'
 import { Now } from './components/Now'
 import { Story } from './components/Story'
-import { NeoOffice } from './components/NeoOffice'
 import { Work } from './components/Work'
 import { Aviation } from './components/Aviation'
 import { Photos } from './components/Photos'
@@ -62,7 +61,6 @@ export default function App() {
         <Hero ready={arrived} />
         <Now />
         <Story />
-        <NeoOffice />
         <Work />
         <Aviation />
         <Photos />

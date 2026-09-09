@@ -3,7 +3,7 @@ import { Fade, Reveal } from './Reveal'
 
 export function Contact() {
   return (
-    <section className="contact" id="contact" data-chapter="07 · Contact">
+    <section className="contact" id="contact" data-chapter="06 · Contact">
       <div className="container">
         <Fade as="p" className="eyebrow">Contact</Fade>
         <Reveal as="h2" className="contact-title">Let’s build <em>something</em> for your business.</Reveal>

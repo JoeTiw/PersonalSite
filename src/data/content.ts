@@ -33,31 +33,6 @@ export const story: Chapter[] = [
   },
 ]
 
-export type NeoStep = { key: 'dashboard' | 'fuel' | 'pos' | 'ai'; title: string; body: string }
-
-export const neoSteps: NeoStep[] = [
-  {
-    key: 'dashboard',
-    title: 'Know the day before it ends.',
-    body: 'Inside sales against fuel, tax collected, and the day hour by hour. Checked from the office, from home, or from a phone in the parking lot.',
-  },
-  {
-    key: 'fuel',
-    title: 'Every grade, cash and credit.',
-    body: 'Change one grade or all of them. Each one carries its own last-updated stamp, so nobody has to wonder whether the sign matches the pump.',
-  },
-  {
-    key: 'pos',
-    title: 'Change it here, sell it there.',
-    body: 'A price edit becomes a batch, the batch goes to the register, and the register confirms it. If it does not land, it retries on its own and tells you that minute.',
-  },
-  {
-    key: 'ai',
-    title: 'Ask the store a question.',
-    body: 'Neo AI answers from your own sales and invoices. Nothing runs without a confirm, because a store is not a place for surprises.',
-  },
-]
-
 export type Project = { name: string; year: string; stack: string; blurb: string; url: string }
 
 export const projects: Project[] = [
