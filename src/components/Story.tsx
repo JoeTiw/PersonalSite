@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { story, site } from '../data/content'
 import { Fade, Reveal } from './Reveal'
 import { Magnetic } from './Magnetic'
@@ -26,9 +27,28 @@ function StoryCard({ chapter, index }: CardProps) {
 /**
  * The founder story: a sticky heading beside a column of chapter cards that drift
  * slowly through a masked window, dissolving into the fade at both ends.
- * Phones get the same cards as a plain stack, since there is no hover to pause a drift.
+ * Hovering pauses it with a mouse; holding a finger on it pauses it on touch.
  */
 export function Story() {
+  const win = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = win.current
+    if (!el) return
+    const hold = () => el.classList.add('is-held')
+    const release = () => el.classList.remove('is-held')
+    el.addEventListener('pointerdown', hold, { passive: true })
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave'] as const) {
+      el.addEventListener(ev, release, { passive: true })
+    }
+    return () => {
+      el.removeEventListener('pointerdown', hold)
+      for (const ev of ['pointerup', 'pointercancel', 'pointerleave'] as const) {
+        el.removeEventListener(ev, release)
+      }
+    }
+  }, [])
+
   return (
     <section className="story section-pad" id="story" data-chapter="02 · The founder story">
       <div className="container story-grid">
@@ -43,7 +63,7 @@ export function Story() {
           </Fade>
         </div>
 
-        <div className="story-window">
+        <div className="story-window" ref={win}>
           <ol className="story-track">
             {story.map((c, i) => (
               <StoryCard key={c.label} chapter={c} index={i} />

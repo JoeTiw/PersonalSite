@@ -265,8 +265,8 @@ section { position: relative; }
 .story-steps i.on { width: 20px; border-radius: 3px; background: var(--accent); }
 .story-steps .mono { margin-left: auto; color: var(--card-ink-2); font-variant-numeric: tabular-nums; }
 
-/* The drifting, masked window. Desktop only: a drift nobody can pause is no good on touch. */
-@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+/* The drifting, masked window. Hover pauses with a mouse, holding pauses on touch. */
+@media (prefers-reduced-motion: no-preference) {
   .story-window {
     height: min(72vh, 660px);
     overflow: hidden;
@@ -276,10 +276,20 @@ section { position: relative; }
   .story-track { animation: story-drift 52s linear infinite; will-change: transform; }
   .story-track.is-clone { display: grid; margin-top: var(--gap); }
   .story-window:hover .story-track,
-  .story-window:focus-within .story-track { animation-play-state: paused; }
+  .story-window:focus-within .story-track,
+  .story-window.is-held .story-track { animation-play-state: paused; }
   @keyframes story-drift {
     from { transform: translateY(0); }
     to { transform: translateY(calc(-100% - var(--gap))); }
+  }
+
+  /* Phones: a taller window and a gentler fade, so a whole card still reads clearly. */
+  @media (max-width: 900px) {
+    .story-window {
+      height: min(78vh, 620px);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    }
   }
 }
 
