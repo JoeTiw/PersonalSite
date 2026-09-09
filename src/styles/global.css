@@ -391,7 +391,6 @@ section { position: relative; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll i { animation: none; transform: none; }
-  .marquee-track { animation: none; }
   [data-reveal] { opacity: 1; transform: none; }
   .now-portrait img, .photo-frame img { transform: none; }
 }
