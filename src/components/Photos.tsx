@@ -120,7 +120,7 @@ export function Photos() {
   const current = photos[index]
 
   return (
-    <section className="photos" id="photos" data-chapter="07 · Off the clock">
+    <section className="photos" id="photos" data-chapter="06 · Off the clock">
       <div className="container">
         <div className="section-head">
           <Fade as="p" className="eyebrow">Off the clock</Fade>

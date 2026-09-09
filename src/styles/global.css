@@ -322,21 +322,6 @@ section { position: relative; }
 .card:hover .card-link i { width: 34px; }
 @media (max-width: 640px) { .card { grid-template-columns: 1fr; gap: 10px; } .card .card-index { display: none; } }
 
-/* ---------- craft ---------- */
-.principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin-top: clamp(40px, 8vh, 96px); }
-.principle { padding: 32px 28px 36px 0; display: grid; gap: 14px; align-content: start; border-right: 1px solid var(--rule); }
-.principle:not(:first-child) { padding-left: 28px; }
-.principle:last-child { border-right: 0; padding-right: 0; }
-.principle h3 { font-size: clamp(26px, 2.6vw, 36px); line-height: 1.05; }
-.principle p { color: var(--ink-2); }
-@media (max-width: 800px) { .principles { grid-template-columns: 1fr; } .principle { border-right: 0; border-bottom: 1px solid var(--rule); padding: 28px 0; } .principle:not(:first-child) { padding-left: 0; } .principle:last-child { border-bottom: 0; } }
-.marquee { overflow: hidden; margin-top: clamp(40px, 8vh, 96px); border-block: 1px solid var(--rule); padding-block: 18px; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.marquee-track { display: flex; width: max-content; gap: 0; animation: marquee 48s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-.marquee-track span { font-family: var(--serif); font-size: clamp(28px, 4vw, 56px); line-height: 1; padding: 0 28px; white-space: nowrap; display: inline-flex; align-items: center; gap: 28px; }
-.marquee-track span::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-
 /* ---------- photos: a 3D ring on a dark ground ---------- */
 .photos {
   background: var(--paper);
@@ -477,8 +462,6 @@ section { position: relative; }
   .contact-row { margin-top: 32px; }
   .footer { margin-top: 56px; }
   .cards { margin-top: 32px; }
-  .principles { margin-top: 32px; }
-  .marquee { margin-top: 40px; }
 
   .content > section[data-chapter]::before {
     content: attr(data-chapter);

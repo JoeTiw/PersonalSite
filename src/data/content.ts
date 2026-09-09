@@ -105,26 +105,6 @@ export const projects: Project[] = [
   },
 ]
 
-export const principles = [
-  {
-    title: 'Start from the counter.',
-    body: 'Store software has to work at 5:52 AM with a line at the register. I design from the person using it, not from the diagram.',
-  },
-  {
-    title: 'Own the whole stack.',
-    body: 'Web, mobile, backend, and integrations with hardware nobody documents. Small teams ship when nobody says “not my part.”',
-  },
-  {
-    title: 'Build it so it stays in sync.',
-    body: 'Retries, alerts, history, proof. The boring reliability work is the product, and it is the part customers feel.',
-  },
-]
-
-export const tools = [
-  'TypeScript', 'React', 'Next.js', 'React Native', 'Node.js', '.NET', 'C#', 'Java', 'Spring Boot',
-  'Python', 'PostgreSQL', 'SQL Server', 'EDI', 'POS integrations', 'GitHub Actions', 'Vercel', 'Three.js', 'GSAP',
-]
-
 export type Photo = { src: string; title: string; caption: string; w: number; h: number }
 
 export const photos: Photo[] = [

@@ -23,7 +23,7 @@ Pushing to `main` runs `.github/workflows/deploy.yml`, which builds `dist/` and 
 
 ## Edit the words
 
-All copy lives in `src/data/content.ts`: the founder story chapters, the Neo Office steps, the six projects, the principles, the tools marquee, and the photo captions.
+All copy lives in `src/data/content.ts`: the founder story chapters, the Neo Office steps, the six projects, and the photo captions.
 
 ## Credits
 
