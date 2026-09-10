@@ -334,8 +334,15 @@ export default function Portrait({ src, caption }: Props) {
     const io = new IntersectionObserver(([e]) => setActive(e.isIntersecting), { threshold: 0.05 })
     io.observe(el)
     let lastX = 0, lastY = 0
+    let rect = el.getBoundingClientRect()
+    let stale = true
+    const invalidate = () => { stale = true }
+    window.addEventListener('scroll', invalidate, { passive: true })
+    window.addEventListener('resize', invalidate, { passive: true })
     const move = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect()
+      // Measuring on every move forces a layout; refresh only after a scroll or resize.
+      if (stale) { rect = el.getBoundingClientRect(); stale = false }
+      const r = rect
       const nx = ((e.clientX - r.left) / r.width) * 2 - 1
       const ny = ((e.clientY - r.top) / r.height) * 2 - 1
       state.px = Math.max(-1, Math.min(1, nx))
@@ -360,6 +367,8 @@ export default function Portrait({ src, caption }: Props) {
     el.addEventListener('pointercancel', leave)
     return () => {
       io.disconnect()
+      window.removeEventListener('scroll', invalidate)
+      window.removeEventListener('resize', invalidate)
       el.removeEventListener('pointermove', move)
       el.removeEventListener('pointerenter', enter)
       el.removeEventListener('pointerleave', leave)
