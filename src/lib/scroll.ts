@@ -8,10 +8,18 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
 
 let lenis: Lenis | null = null
 
+/**
+ * Safari interpolates wheel/trackpad momentum itself, so smoothing it a second time
+ * reads as lag. Let Safari scroll natively; ScrollTrigger works either way.
+ */
+const isSafari = () =>
+  typeof navigator !== 'undefined' &&
+  /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent)
+
 /** Starts Lenis smooth scrolling and wires it into GSAP's ticker so ScrollTrigger stays in sync. */
 export function initSmoothScroll(): Lenis | null {
   if (lenis) return lenis
-  if (prefersReducedMotion()) return null
+  if (prefersReducedMotion() || isSafari()) return null
 
   lenis = new Lenis({
     lerp: 0.12,

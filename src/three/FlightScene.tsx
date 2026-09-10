@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Airplane } from './Airplane'
 import { useIsMobile } from '../lib/useMedia'
 import { useTheme } from '../lib/theme'
+import { useNearViewport } from '../lib/useNearViewport'
 
 type Props = { active: boolean }
 
@@ -10,6 +12,10 @@ export default function FlightScene({ active }: Props) {
   const mobile = useIsMobile()
   const [theme] = useTheme()
   const dark = theme === 'dark'
+  const [host, setHost] = useState<Element | null>(null)
+  useEffect(() => setHost(document.querySelector('#aviation')), [])
+  const near = useNearViewport(host)
+  if (!near) return null
   return (
     <Canvas
       dpr={[1, 1.5]}

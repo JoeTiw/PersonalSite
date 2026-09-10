@@ -35,6 +35,13 @@ export function Story() {
   useEffect(() => {
     const el = win.current
     if (!el) return
+    // Only spend frames on the drift while the section is on screen.
+    const io = new IntersectionObserver(
+      ([e]) => el.classList.toggle('is-onscreen', e.isIntersecting),
+      { rootMargin: '10% 0px' },
+    )
+    io.observe(el)
+
     const hold = () => el.classList.add('is-held')
     const release = () => el.classList.remove('is-held')
     el.addEventListener('pointerdown', hold, { passive: true })
@@ -42,6 +49,7 @@ export function Story() {
       el.addEventListener(ev, release, { passive: true })
     }
     return () => {
+      io.disconnect()
       el.removeEventListener('pointerdown', hold)
       for (const ev of ['pointerup', 'pointercancel', 'pointerleave'] as const) {
         el.removeEventListener(ev, release)

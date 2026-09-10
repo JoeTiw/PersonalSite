@@ -58,8 +58,11 @@ export function Photos() {
       cards.forEach((c, i) => {
         const a = (((i * step + rot) % 360) + 360) % 360
         const d = Math.min(a, 360 - a)
-        c.style.opacity = String(1 - (d / 180) * 0.6)
-        c.style.zIndex = String(Math.round(180 - d))
+        // Write only when the value actually changes; style writes are the expensive part.
+        const op = (1 - (d / 180) * 0.6).toFixed(2)
+        if (c.dataset.op !== op) { c.style.opacity = op; c.dataset.op = op }
+        const z = String(Math.round(180 - d))
+        if (c.dataset.z !== z) { c.style.zIndex = z; c.dataset.z = z }
         if (d < bestD) { bestD = d; best = i }
       })
       if (best !== lastIdx) { lastIdx = best; setIndex(best) }

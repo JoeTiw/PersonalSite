@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { prefersReducedMotion } from '../lib/scene-state'
+import { useNearViewport } from '../lib/useNearViewport'
 
 const vertex = /* glsl */ `
   varying vec2 vUv;
@@ -322,11 +323,14 @@ export default function Portrait({ src, caption }: Props) {
   const wrap = useRef<HTMLDivElement>(null)
   const chip = useRef<HTMLElement>(null)
   const [active, setActive] = useState(false)
+  const [host, setHost] = useState<Element | null>(null)
+  const near = useNearViewport(host)
   const state = useRef<SharedState>({ px: 0, py: 0, hover: 0, kick: 0, strength: 0, card: null }).current
 
   useEffect(() => {
     const el = wrap.current
     if (!el) return
+    setHost(el)
     const io = new IntersectionObserver(([e]) => setActive(e.isIntersecting), { threshold: 0.05 })
     io.observe(el)
     let lastX = 0, lastY = 0
@@ -366,6 +370,7 @@ export default function Portrait({ src, caption }: Props) {
 
   return (
     <div className="portrait" ref={wrap}>
+      {near && (
       <Canvas
         dpr={[1, 2]}
         frameloop={active ? 'always' : 'never'}
@@ -378,6 +383,7 @@ export default function Portrait({ src, caption }: Props) {
         <Plane src={src} state={state} />
         <Holder state={state} />
       </Canvas>
+      )}
       <figcaption className="mono portrait-chip" ref={chip}>{caption}</figcaption>
     </div>
   )

@@ -6,6 +6,7 @@ import { ScrollTrigger } from '../lib/scroll'
 import { sceneState } from '../lib/scene-state'
 import { useIsMobile } from '../lib/useMedia'
 import { useTheme } from '../lib/theme'
+import { useNearViewport } from '../lib/useNearViewport'
 
 /** Fixed canvas behind the hero. Stops rendering once the hero has scrolled away. */
 export default function Scene() {
@@ -13,8 +14,11 @@ export default function Scene() {
   const [theme] = useTheme()
   const dark = theme === 'dark'
   const [active, setActive] = useState(true)
+  const [hero, setHero] = useState<Element | null>(null)
+  const near = useNearViewport(hero)
 
   useEffect(() => {
+    setHero(document.querySelector('.hero'))
     const onMove = (e: PointerEvent) => {
       sceneState.pointer.x = (e.clientX / window.innerWidth) * 2 - 1
       sceneState.pointer.y = (e.clientY / window.innerHeight) * 2 - 1
@@ -35,6 +39,7 @@ export default function Scene() {
 
   return (
     <div className={`scene${active ? '' : ' is-hidden'}`} aria-hidden="true">
+      {near && (
       <Canvas
         dpr={[1, 1.5]}
         frameloop={active ? 'always' : 'never'}
@@ -49,6 +54,7 @@ export default function Scene() {
         <Workstation mobile={mobile} dark={dark} />
         <ContactShadows position={[mobile ? 0 : 2.0, mobile ? 0.6 : -1.2, 0]} opacity={dark ? 0.6 : 0.3} color={dark ? '#000000' : '#141519'} scale={mobile ? 5 : 12} blur={2.6} far={4} frames={1} />
       </Canvas>
+      )}
     </div>
   )
 }
